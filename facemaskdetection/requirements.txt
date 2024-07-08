@@ -1,0 +1,6 @@
+django
+typing_extensions
+Pillow
+numpy==1.26.4
+bs4
+gunicorn
