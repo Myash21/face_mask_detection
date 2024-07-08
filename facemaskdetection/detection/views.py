@@ -1,7 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import torch
@@ -55,5 +52,8 @@ def predict(request):
                 _, predicted = torch.max(outputs, 1)
                 class_idx = predicted.item()
 
-            return render(request, 'detection/index.html', {'prediction': f'Class = {class_idx}'})
+            # Map the class index to a human-readable string
+            prediction_text = "Mask Present" if class_idx == 1 else "Mask Absent"
+
+            return render(request, 'detection/index.html', {'prediction': prediction_text})
     return render(request, 'detection/index.html', {'prediction': 'No file uploaded'})

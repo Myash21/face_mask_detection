@@ -1,19 +1,76 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('{% static "detection/medical-mask.jpg" %}');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px; /* Adjust width as needed */
+            margin: auto; /* Center align horizontally */
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333; /* Dark text color */
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc; /* Light border */
+            border-radius: 5px;
+            width: 100%; /* Full width */
+            box-sizing: border-box; /* Include padding in width */
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+        .prediction {
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload an Image for Classification</h1>
-    <form action="{% url 'predict' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="file" accept="image/*">
-        <input type="submit" value="Upload">
-    </form>
-    {% if prediction %}
-    <h2>Prediction: {{ prediction }}</h2>
-    {% endif %}
+    <div class="container">
+        <h1>Upload an Image for Classification</h1>
+        <form action="{% url 'predict' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file" accept="image/*" required>
+            <input type="submit" value="Upload">
+        </form>
+        {% if prediction %}
+        <div class="prediction">
+            <h2>Prediction: {{ prediction }}</h2>
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>
