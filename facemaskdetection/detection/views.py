@@ -12,10 +12,10 @@ import numpy as np
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Load the model architecture
-model = models.resnet18(pretrained=False)
+model = models.resnet18(weights=None)
 num_ftrs = model.fc.in_features
 model.fc = nn.Linear(num_ftrs, 2)  # Adjust according to your number of classes
-model.load_state_dict(torch.load(r'detection\pytorch_model\model.pth', map_location=device))
+model.load_state_dict(torch.load(r'detection/pytorch_model/model.pth', map_location=device))
 model = model.to(device)
 model.eval()
 
@@ -44,16 +44,19 @@ def predict(request):
     if request.method == 'POST' and 'file' in request.FILES:
         file = request.FILES['file']
         if file:
-            img_bytes = file.read()
-            tensor = preprocess_image(img_bytes).to(device)
+            try:
+                img_bytes = file.read()
+                tensor = preprocess_image(img_bytes).to(device)
 
-            with torch.no_grad():
-                outputs = model(tensor)
-                _, predicted = torch.max(outputs, 1)
-                class_idx = predicted.item()
+                with torch.no_grad():
+                    outputs = model(tensor)
+                    _, predicted = torch.max(outputs, 1)
+                    class_idx = predicted.item()
 
-            # Map the class index to a human-readable string
-            prediction_text = "Mask Present" if class_idx == 1 else "Mask Absent"
+                # Map the class index to a human-readable string
+                prediction_text = "Mask Present" if class_idx == 1 else "Mask Absent"
+            except Exception as e:
+                prediction_text = f"Error during prediction: {str(e)}"
 
             return render(request, 'detection/index.html', {'prediction': prediction_text})
     return render(request, 'detection/index.html', {'prediction': 'No file uploaded'})
