@@ -2,7 +2,7 @@
 
 **A Django-powered image processing application to detect whether a person is wearing a mask.**
 
-## Live Link : [click here]{https://face-mask-detection-12.onrender.com/predict/}
+## Live Link : https://face-mask-detection-12.onrender.com
 
 ## Overview
 
