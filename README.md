@@ -2,6 +2,8 @@
 
 **A Django-powered image processing application to detect whether a person is wearing a mask.**
 
+## Live Link : [click here]{https://face-mask-detection-12.onrender.com/predict/}
+
 ## Overview
 
 This project leverages the power of Django and computer vision techniques to accurately identify individuals wearing face masks in images. It's a practical solution for various applications, such as security systems, public health monitoring, and more.
